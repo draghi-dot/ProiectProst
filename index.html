@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UBER PRODUCTIVITY APP 3000</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="STYLES.css">
+  <link rel="stylesheet" href="login_AND_register.css">
+  <style>
+    /* login page styles (also used in dashboard lol) */
+    body { background: #f0f0f0; font-family: Arial; margin: 20px; }
+    .login-box { width: 420px; margin: 80px auto; background: white; padding: 30px; border: 3px solid #333; border-radius: 8px; }
+    h1 { color: red; text-align: center; font-size: 42px; margin-bottom: 5px; }
+    .subtitle { text-align:center; color:gray; font-size:12px; margin-bottom:20px; }
+    input[type=text], input[type=password], input[type=number] { width: 100%; padding: 10px; margin: 6px 0; box-sizing: border-box; border: 2px solid #ccc; border-radius: 4px; }
+    .big-btn { width:100%; padding:12px; background:green; color:white; border:none; font-size:16px; cursor:pointer; border-radius:4px; margin-top:8px; }
+    .big-btn:hover { background: darkgreen; }
+    #msg { text-align:center; margin-top:12px; font-weight:bold; font-size:14px; }
+    /* TODO: move these to STYLES.css sometime */
+    .nav { background: #222; padding: 10px 20px; display:flex; gap:15px; align-items:center; }
+    .nav a { color: white; text-decoration:none; padding: 6px 12px; }
+    .nav a:hover { background: #444; border-radius:4px; }
+    .nav .logo { color: #ffcc00; font-weight:bold; font-size:18px; margin-right:auto; }
+    .nav .logout-btn { background:#c0392b; color:white; border:none; padding:6px 14px; cursor:pointer; border-radius:4px; }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN/REGISTER SECTION -->
+<div id="authSection">
+  <div class="login-box">
+    <h1>&#128293; UBER PRODUCTIVITY APP 3000 &#128293;</h1>
+    <p class="subtitle">The BEST app for productivity on the INTERNET!!!!</p>
+
+    <!-- login form -->
+    <div id="loginForm">
+      <h3>Login to your account</h3>
+      <input type="text" id="username_input" placeholder="Username" style="border:2px solid blue;">
+      <input type="password" id="password_input" placeholder="Password">
+      <button class="big-btn" onclick="doLogin()">&#128274; LOGIN NOW</button>
+      <br><br>
+      <p style="text-align:center;">Dont have account? <a href="#" onclick="showRegister()">Register HERE</a></p>
+    </div>
+
+    <!-- register form -->
+    <div id="registerForm" style="display:none">
+      <h3>Create New Account</h3>
+      <input type="text" id="reg_name" placeholder="Full Name">
+      <input type="text" id="reg_username" placeholder="Username (min 3 chars)">
+      <input type="password" id="reg_password" placeholder="Password">
+      <input type="password" id="reg_password2" placeholder="Confirm Password">
+      <input type="number" id="reg_age" placeholder="Your Age">
+      <button class="big-btn" onclick="doRegister()">&#127881; CREATE ACCOUNT!</button>
+      <br><br>
+      <p style="text-align:center;">Already have account? <a href="#" onclick="showLogin()">Login HERE</a></p>
+    </div>
+
+    <div id="msg" style="color:red;"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD SECTION (hidden until logged in) -->
+<div id="dashSection" style="display:none">
+  <div class="nav">
+    <span class="logo">&#9889; UBER PRODUCTIVITY 3000</span>
+    <a href="#" onclick="showSection('dashSection2')">&#127968; Home</a>
+    <a href="#" onclick="showSection('todoSection')">&#9989; Todos</a>
+    <a href="#" onclick="showSection('notesSection')">&#128221; Notes</a>
+    <a href="#" onclick="showSection('budgetSection')">&#128176; Budget</a>
+    <a href="Calculator.html">&#128290; Calculator</a>
+    <button class="logout-btn" onclick="doLogout()">Logout</button>
+  </div>
+
+  <!-- DASHBOARD HOME -->
+  <div id="dashSection2" style="padding:20px;">
+    <h2>Welcome back, <span id="welcomeName"></span>! &#128075;</h2>
+    <p style="color:gray;">Today is: <span id="todayDate"></span></p>
+    <br>
+    <div style="display:flex; gap:20px; flex-wrap:wrap;">
+      <div class="stat-card" style="background:#3498db;">
+        <div class="stat-num" id="statTodos">0</div>
+        <div class="stat-label">Active Todos</div>
+      </div>
+      <div class="stat-card" style="background:#2ecc71;">
+        <div class="stat-num" id="statNotes">0</div>
+        <div class="stat-label">Notes Written</div>
+      </div>
+      <div class="stat-card" style="background:#e74c3c;">
+        <div class="stat-num" id="statBalance">$0</div>
+        <div class="stat-label">Budget Balance</div>
+      </div>
+      <div class="stat-card" style="background:#9b59b6;">
+        <div class="stat-num" id="statScore">0%</div>
+        <div class="stat-label">Productivity Score</div>
+      </div>
+    </div>
+    <br>
+    <div style="background:white; padding:20px; border-radius:8px; border:1px solid #ddd;">
+      <h3>&#128161; Daily Motivation</h3>
+      <p id="quoteText" style="font-size:18px; font-style:italic; color:#555;"></p>
+      <button onclick="newQuote()" style="margin-top:10px; padding:8px 16px; cursor:pointer;">New Quote &#128257;</button>
+    </div>
+  </div>
+
+  <!-- TODO SECTION -->
+  <div id="todoSection" style="display:none; padding:20px;">
+    <h2>&#9989; My Todo List</h2>
+    <div style="background:white; padding:20px; border-radius:8px; margin-bottom:20px; border:1px solid #ddd;">
+      <input type="text" id="todoInput" placeholder="What do you need to do?" style="width:60%; padding:10px; margin-right:10px;">
+      <select id="todoPriority" style="padding:10px; margin-right:10px;">
+        <option value="high">&#128308; High Priority</option>
+        <option value="medium" selected>&#128992; Medium Priority</option>
+        <option value="low">&#128994; Low Priority</option>
+      </select>
+      <button onclick="addTodo()" style="padding:10px 20px; background:#27ae60; color:white; border:none; cursor:pointer; border-radius:4px;">Add Todo</button>
+    </div>
+    <div style="margin-bottom:15px;">
+      <button onclick="filterTodos('all')" style="padding:6px 14px; margin-right:5px; cursor:pointer;">All</button>
+      <button onclick="filterTodos('active')" style="padding:6px 14px; margin-right:5px; cursor:pointer;">Active</button>
+      <button onclick="filterTodos('done')" style="padding:6px 14px; margin-right:5px; cursor:pointer;">Done</button>
+      <button onclick="clearDoneTodos()" style="padding:6px 14px; background:#e74c3c; color:white; border:none; cursor:pointer; border-radius:4px; float:right;">Clear Completed</button>
+    </div>
+    <div id="todoList"></div>
+  </div>
+
+  <!-- NOTES SECTION -->
+  <div id="notesSection" style="display:none; padding:20px;">
+    <h2>&#128221; My Notes</h2>
+    <div style="display:flex; gap:20px;">
+      <div style="flex:1; background:white; padding:20px; border-radius:8px; border:1px solid #ddd;">
+        <h3>Write New Note</h3>
+        <input type="text" id="noteTitle" placeholder="Note title..." style="width:100%; padding:8px; margin-bottom:10px; box-sizing:border-box;">
+        <select id="noteCategory" style="width:100%; padding:8px; margin-bottom:10px;">
+          <option value="general">General</option>
+          <option value="work">Work</option>
+          <option value="personal">Personal</option>
+          <option value="ideas">Ideas</option>
+        </select>
+        <textarea id="noteContent" placeholder="Write your note here..." style="width:100%; height:150px; padding:8px; box-sizing:border-box; resize:vertical;"></textarea>
+        <br><br>
+        <button onclick="saveNote()" style="width:100%; padding:10px; background:#8e44ad; color:white; border:none; cursor:pointer; border-radius:4px; font-size:15px;">Save Note &#128190;</button>
+      </div>
+      <div style="flex:1;">
+        <h3>My Notes (<span id="notesCount">0</span>)</h3>
+        <div id="notesList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET SECTION -->
+  <div id="budgetSection" style="display:none; padding:20px;">
+    <h2>&#128176; Budget Tracker</h2>
+    <div style="display:flex; gap:20px; margin-bottom:20px;">
+      <div class="stat-card" style="background:#27ae60;">
+        <div class="stat-num" id="totalIncome">$0.00</div>
+        <div class="stat-label">Total Income</div>
+      </div>
+      <div class="stat-card" style="background:#c0392b;">
+        <div class="stat-num" id="totalExpenses">$0.00</div>
+        <div class="stat-label">Total Expenses</div>
+      </div>
+      <div class="stat-card" id="balanceCard" style="background:#2980b9;">
+        <div class="stat-num" id="budgetBalance">$0.00</div>
+        <div class="stat-label">Balance</div>
+      </div>
+    </div>
+    <div style="display:flex; gap:20px;">
+      <div style="flex:1; background:white; padding:20px; border-radius:8px; border:1px solid #ddd;">
+        <h3>Add Transaction</h3>
+        <input type="text" id="transDesc" placeholder="Description" style="width:100%; padding:8px; margin-bottom:10px; box-sizing:border-box;">
+        <input type="number" id="transAmount" placeholder="Amount (e.g. 50.00)" step="0.01" style="width:100%; padding:8px; margin-bottom:10px; box-sizing:border-box;">
+        <select id="transType" style="width:100%; padding:8px; margin-bottom:10px;">
+          <option value="income">&#128200; Income</option>
+          <option value="expense">&#128201; Expense</option>
+        </select>
+        <select id="transCategory" style="width:100%; padding:8px; margin-bottom:10px;">
+          <option value="salary">Salary</option>
+          <option value="food">Food</option>
+          <option value="transport">Transport</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="health">Health</option>
+          <option value="other">Other</option>
+        </select>
+        <button onclick="addTransaction()" style="width:100%; padding:10px; background:#2980b9; color:white; border:none; cursor:pointer; border-radius:4px; font-size:15px;">Add Transaction</button>
+      </div>
+      <div style="flex:2;">
+        <h3>Transaction History</h3>
+        <div id="transactionList"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="app.js"></script>
+<script src="LOGIN.js"></script>
+<script src="todo_And_Notes.js"></script>
+<script src="budget.js"></script>
+<script>
+  // check if already logged in when page loads
+  var x = localStorage.getItem("currentUser");
+  if (x != null && x != "" && x != undefined) {
+    initDashboard();
+  }
+
+  function doLogin() {
+    var u = document.getElementById("username_input").value;
+    var p = document.getElementById("password_input").value;
+    console.log("login attempt")
+    console.log(u)
+
+    if (u == "" || u == null) {
+      showMsg("Please enter username!!!", "red");
+      return;
+    }
+    if (p == "" || p == null) {
+      showMsg("Please enter password!!!", "red");
+      return;
+    }
+
+    var result = loginUser(u, p);
+    if (result == true) {
+      initDashboard();
+    } else {
+      showMsg("Wrong username or password!!!", "red");
+    }
+  }
+
+  function doRegister() {
+    var name = document.getElementById("reg_name").value;
+    var username = document.getElementById("reg_username").value;
+    var password = document.getElementById("reg_password").value;
+    var password2 = document.getElementById("reg_password2").value;
+    var age = document.getElementById("reg_age").value;
+
+    if (name == "") { showMsg("Name is required!", "red"); return false; }
+    if (username == "") { showMsg("Username is required!", "red"); return false; }
+    if (username.length < 3) { showMsg("Username too short!", "red"); return false; }
+    if (password == "") { showMsg("Password is required!", "red"); return false; }
+    if (password != password2) { showMsg("Passwords dont match!", "red"); return false; }
+    if (age == "" || parseInt(age) < 1 || parseInt(age) > 150) { showMsg("Enter a valid age!", "red"); return false; }
+
+    var res = registerUser(name, username, password, parseInt(age));
+    if (res == "ok") {
+      showMsg("Account created! You can login now!", "green");
+      setTimeout(function() { showLogin(); }, 1500);
+    } else if (res == "exists") {
+      showMsg("Username already taken!", "red");
+    }
+  }
+
+  function showMsg(text, color) {
+    document.getElementById("msg").style.color = color;
+    document.getElementById("msg").innerHTML = text;
+  }
+
+  function showRegister() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'block';
+    document.getElementById("msg").innerHTML = "";
+  }
+
+  function showLogin() {
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById("msg").innerHTML = "";
+  }
+
+  function initDashboard() {
+    document.getElementById("authSection").style.display = "none";
+    document.getElementById("dashSection").style.display = "block";
+    var u = JSON.parse(localStorage.getItem("currentUser"));
+    document.getElementById("welcomeName").innerHTML = u.name;
+    document.getElementById("todayDate").innerHTML = new Date().toDateString();
+    updateStats();
+    newQuote();
+    renderTodos();
+    renderNotes();
+    renderTransactions();
+  }
+
+  function showSection(id) {
+    // hide all sections (bad way to do it but whatever)
+    document.getElementById("dashSection2").style.display = "none";
+    document.getElementById("todoSection").style.display = "none";
+    document.getElementById("notesSection").style.display = "none";
+    document.getElementById("budgetSection").style.display = "none";
+    document.getElementById(id).style.display = "block";
+  }
+
+  function doLogout() {
+    localStorage.removeItem("currentUser");
+    location.reload();
+  }
+</script>
+</body>
+</html>

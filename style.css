@@ -1,0 +1,194 @@
+/* Main styles for UBER PRODUCTIVITY APP 3000 */
+/* Written by: the team (multiple people edited this file) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* general body styles */
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  margin: 20px; /* overrides the * reset above, oops */
+  color: #333;
+}
+
+/* button styles */
+.button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.button:hover {
+  background: #2980b9;
+}
+
+/* container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* card */
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* stat cards for dashboard */
+.stat-card {
+    width: 180px;
+    height: 120px;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.stat-num {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 12px;
+  margin-top: 5px;
+  opacity: 0.9;
+}
+
+/* todo item styles - TODO: move these to a separate todos.css */
+.todo-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.todo-item.done {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.todo-item.priority-high { border-left: 4px solid #e74c3c; }
+.todo-item.priority-medium { border-left: 4px solid #f39c12; }
+.todo-item.priority-low { border-left: 4px solid #27ae60; }
+
+.todo-text { flex: 1; }
+
+.todo-delete-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+/* note card styles - ALSO here because nobody moved them */
+.note-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-top: 4px solid #8e44ad;
+}
+
+.note-card.cat-work { border-top-color: #2980b9; }
+.note-card.cat-personal { border-top-color: #27ae60; }
+.note-card.cat-ideas { border-top-color: #f39c12; }
+
+.note-title { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+.note-body { color: #666; font-size: 14px; margin-bottom: 8px; white-space: pre-wrap; }
+.note-meta { font-size: 11px; color: #999; }
+
+/* budget / transaction styles */
+.transaction-item {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.transaction-item.income { border-left: 4px solid #27ae60; }
+.transaction-item.expense { border-left: 4px solid #e74c3c; }
+
+.trans-amount-income { color: #27ae60; font-weight: bold; font-size: 16px; }
+.trans-amount-expense { color: #e74c3c; font-weight: bold; font-size: 16px; }
+
+/* modal - not actually used anywhere lol */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  width: 500px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+/* h1 style overridden in STYLES.css */
+h1 {
+  color: #333;
+  font-size: 28px;
+}
+
+h2 {
+  color: #444;
+  margin-bottom: 15px;
+}
+
+h3 {
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #aaa;
+  font-size: 16px;
+}
+
+/* scrollbar (only works in webkit browsers) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}

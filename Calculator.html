@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- copy pasted from index.html, too lazy to make a template -->
+  <title>Calculator - UBER PRODUCTIVITY APP 3000</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="STYLES.css">
+  <link rel="stylesheet" href="login_AND_register.css">
+  <style>
+    body { font-family: Arial; margin: 0; }
+    .nav { background: #222; padding: 10px 20px; display:flex; gap:15px; align-items:center; }
+    .nav a { color: white; text-decoration:none; padding: 6px 12px; }
+    .nav a:hover { background: #444; border-radius:4px; }
+    .nav .logo { color: #ffcc00; font-weight:bold; font-size:18px; margin-right:auto; }
+    .nav .logout-btn { background:#c0392b; color:white; border:none; padding:6px 14px; cursor:pointer; border-radius:4px; }
+    .calc-wrapper { max-width: 380px; margin: 50px auto; background: #1a1a2e; border-radius: 20px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+    .calc-screen { background: #16213e; color: #00ff88; font-size: 32px; text-align: right; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; min-height: 60px; word-break: break-all; font-family: 'Courier New'; border: 2px solid #0f3460; }
+    .calc-history { color: #888; font-size: 13px; text-align: right; padding: 0 20px 10px; font-family: 'Courier New'; min-height: 20px; }
+    .btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .calc-btn { padding: 18px; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; transition: transform 0.1s; }
+    .calc-btn:active { transform: scale(0.95); }
+    .btn-num { background: #0f3460; color: white; }
+    .btn-num:hover { background: #1a4a8a; }
+    .btn-op { background: #e94560; color: white; }
+    .btn-op:hover { background: #c73652; }
+    .btn-eq { background: #00ff88; color: #1a1a2e; grid-column: span 2; }
+    .btn-eq:hover { background: #00cc6a; }
+    .btn-clear { background: #ff6b35; color: white; }
+    .btn-clear:hover { background: #e55a24; }
+    .btn-zero { grid-column: span 2; }
+    .error-msg { color: #ff4444; font-size: 13px; text-align: center; margin-top: 10px; min-height: 20px; }
+    .calc-title { color: white; text-align: center; font-size: 20px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+<div class="nav">
+  <span class="logo">&#9889; UBER PRODUCTIVITY 3000</span>
+  <a href="index.html">&#127968; Home</a>
+  <a href="index.html">&#9989; Todos</a>
+  <a href="index.html">&#128221; Notes</a>
+  <a href="index.html">&#128176; Budget</a>
+  <a href="Calculator.html" style="background:#444; border-radius:4px;">&#128290; Calculator</a>
+  <button class="logout-btn" onclick="localStorage.removeItem('currentUser'); window.location.href='index.html'">Logout</button>
+</div>
+
+<div class="calc-wrapper">
+  <div class="calc-title">&#128290; Super Calculator 9000</div>
+  <div class="calc-history" id="calcHistory"></div>
+  <div class="calc-screen" id="calcScreen">0</div>
+  <div class="btn-grid">
+    <button class="calc-btn btn-clear" onclick="clearCalc()">AC</button>
+    <button class="calc-btn btn-clear" onclick="deleteLast()">&#9003;</button>
+    <button class="calc-btn btn-op" onclick="appendToCalc('%')">%</button>
+    <button class="calc-btn btn-op" onclick="appendToCalc('/')">&#247;</button>
+
+    <button class="calc-btn btn-num" onclick="appendToCalc('7')">7</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('8')">8</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('9')">9</button>
+    <button class="calc-btn btn-op" onclick="appendToCalc('*')">&#215;</button>
+
+    <button class="calc-btn btn-num" onclick="appendToCalc('4')">4</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('5')">5</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('6')">6</button>
+    <button class="calc-btn btn-op" onclick="appendToCalc('-')">&#8722;</button>
+
+    <button class="calc-btn btn-num" onclick="appendToCalc('1')">1</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('2')">2</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('3')">3</button>
+    <button class="calc-btn btn-op" onclick="appendToCalc('+')">+</button>
+
+    <button class="calc-btn btn-num btn-zero" onclick="appendToCalc('0')">0</button>
+    <button class="calc-btn btn-num" onclick="appendToCalc('.')">.</button>
+    <button class="calc-btn btn-eq" onclick="calculateResult()">=</button>
+  </div>
+  <div class="error-msg" id="calcError"></div>
+  <div style="margin-top:20px; background:#0f3460; border-radius:10px; padding:15px;">
+    <div style="color:#888; font-size:12px; margin-bottom:8px;">History</div>
+    <div id="historyList" style="color:#aaa; font-size:13px; font-family:'Courier New'; max-height:120px; overflow-y:auto;"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+  // check login - redirect if not logged in
+  // actually nah, calculator should work without login too, its just a calculator
+  // TODO: decide this later
+
+  var currentInput = "0";
+  var justCalculated = false; // flag for after pressing =
+
+  // this function is also defined in app.js but slightly different
+  function formatDate() {
+    var d = new Date();
+    return d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+  }
+
+  function appendToCalc(val) {
+    document.getElementById("calcError").innerHTML = "";
+    if (justCalculated && !isNaN(val) || justCalculated && val == "(") {
+      currentInput = "";
+      justCalculated = false;
+    }
+    if (justCalculated && (val == "+" || val == "-" || val == "*" || val == "/" || val == "%")) {
+      justCalculated = false;
+    }
+    if (currentInput == "0" && val != "." && !isNaN(val)) {
+      currentInput = val;
+    } else {
+      currentInput += val;
+    }
+    document.getElementById("calcScreen").innerHTML = currentInput;
+  }
+
+  function clearCalc() {
+    currentInput = "0";
+    document.getElementById("calcScreen").innerHTML = "0";
+    document.getElementById("calcHistory").innerHTML = "";
+    document.getElementById("calcError").innerHTML = "";
+    justCalculated = false;
+  }
+
+  function deleteLast() {
+    if (currentInput.length <= 1) {
+      currentInput = "0";
+    } else {
+      currentInput = currentInput.slice(0, -1);
+    }
+    document.getElementById("calcScreen").innerHTML = currentInput;
+  }
+
+  function calculateResult() {
+    var expression = currentInput;
+    console.log("calculating: " + expression); // debug log
+    document.getElementById("calcHistory").innerHTML = expression + " =";
+
+    try {
+      // using eval because its the easiest way to do this
+      // security is not a concern here its just a calculator lol
+      var result = eval(expression); // TODO: make this safer someday
+
+      if (result == undefined || result == null) {
+        throw new Error("bad result");
+      }
+
+      // round to avoid 0.1+0.2 type floating point nonsense (doesnt actually fix it completely lol)
+      result = Math.round(result * 1000000000) / 1000000000;
+
+      currentInput = result.toString();
+      document.getElementById("calcScreen").innerHTML = result;
+      justCalculated = true;
+
+      // save to history
+      saveCalcHistory(expression, result);
+
+    } catch(e) {
+      document.getElementById("calcError").innerHTML = "Error: invalid expression!";
+      document.getElementById("calcScreen").innerHTML = "ERROR";
+      currentInput = "0";
+      console.log("calc error:", e)
+    }
+  }
+
+  function saveCalcHistory(expr, result) {
+    var h = localStorage.getItem("calcHistory");
+    var arr = [];
+    if (h != null) {
+      arr = JSON.parse(h);
+    }
+    arr.unshift({ expr: expr, result: result, time: formatDate() });
+    if (arr.length > 20) arr = arr.slice(0, 20); // only keep last 20
+    localStorage.setItem("calcHistory", JSON.stringify(arr));
+    renderHistory();
+  }
+
+  function renderHistory() {
+    var h = localStorage.getItem("calcHistory");
+    if (h == null) return;
+    var arr = JSON.parse(h);
+    var html = "";
+    for (var i = 0; i < arr.length; i++) {
+      html += "<div style='margin-bottom:4px;'>" + arr[i].expr + " = <span style='color:#00ff88'>" + arr[i].result + "</span> <span style='color:#555; font-size:10px;'>(" + arr[i].time + ")</span></div>";
+    }
+    document.getElementById("historyList").innerHTML = html;
+  }
+
+  // keyboard support
+  document.addEventListener("keydown", function(e) {
+    if (e.key >= "0" && e.key <= "9") appendToCalc(e.key);
+    if (e.key == "+") appendToCalc("+");
+    if (e.key == "-") appendToCalc("-");
+    if (e.key == "*") appendToCalc("*");
+    if (e.key == "/") { e.preventDefault(); appendToCalc("/"); }
+    if (e.key == ".") appendToCalc(".");
+    if (e.key == "%" ) appendToCalc("%");
+    if (e.key == "Enter" || e.key == "=") calculateResult();
+    if (e.key == "Backspace") deleteLast();
+    if (e.key == "Escape") clearCalc();
+  });
+
+  // load history on page load
+  renderHistory();
+</script>
+</body>
+</html>

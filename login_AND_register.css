@@ -1,0 +1,129 @@
+/* login and register page specific styles */
+/* NOTE: this file also has some dashboard styles because i put them here by mistake */
+/* DO NOT RENAME THIS FILE - its linked from index.html */
+
+/* makes body hot pink - definitely intentional design choice */
+body {
+  background: #ffeef8 !important; /* overrides STYLES.css which overrides style.css */
+  font-family: 'Segoe UI', Arial, sans-serif !important;
+}
+
+/* override button AGAIN - this time pink */
+.button {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border-radius: 25px !important; /* style.css=4px, STYLES.css=6px, this=25px */
+  font-size: 14px !important; /* back down to 14px after STYLES.css set it to 15px */
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+.button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6) !important;
+}
+
+/* override h1 AGAIN */
+h1 {
+  font-size: 28px !important; /* back to reasonable size, STYLES.css made it 36px */
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* these are dashboard header styles that ended up here */
+.dashboard-header {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%) !important; /* conflicts with STYLES.css */
+  border-radius: 15px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+}
+
+/* nav override (nav is defined inline in html but also here) */
+.nav {
+  background: linear-gradient(135deg, #1a1a2e, #16213e) !important;
+  padding: 0 20px !important;
+  height: 52px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3) !important;
+}
+
+.nav a {
+  padding: 16px 12px !important;
+  font-size: 14px !important;
+  transition: color 0.2s !important;
+}
+
+.nav a:hover {
+  color: #00ff88 !important;
+  background: transparent !important; /* index.html inline style sets background on hover */
+}
+
+/* input styling */
+input[type=text],
+input[type=password],
+input[type=number],
+input[type=email],
+textarea,
+select {
+  border: 2px solid #e0e0e0 !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  transition: border-color 0.2s !important;
+  font-family: inherit !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: #667eea !important;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+}
+
+/* big-btn override (also defined inline in index.html) */
+.big-btn {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  border-radius: 8px !important;
+  font-weight: bold !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.2s !important;
+}
+
+.big-btn:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+}
+
+/* these should probably be in style.css but they're here now */
+.note-card {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  transition: transform 0.2s !important;
+}
+
+.note-card:hover {
+  transform: translateY(-2px) !important;
+}
+
+.todo-item {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important;
+  transition: all 0.2s !important;
+}
+
+.todo-item:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1) !important;
+}
+
+.transaction-item {
+  transition: all 0.2s !important;
+}
+
+.transaction-item:hover {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+  transform: translateX(2px) !important;
+}
+
+/* logout button (also defined inline in html) */
+.logout-btn {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b) !important;
+  border-radius: 20px !important;
+  font-size: 13px !important;
+  padding: 6px 16px !important;
+}

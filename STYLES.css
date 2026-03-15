@@ -1,0 +1,201 @@
+/* STYLES.css - additional styles */
+/* this file was created because style.css got too messy */
+/* DO NOT DELETE - many things depend on this */
+
+/* override body from style.css - we want no margin */
+body {
+  margin: 0 !important;
+  background: #ecf0f1 !important;
+}
+
+/* override button to be green instead of blue */
+.button {
+  background: #27ae60 !important; /* style.css had it blue, green is better */
+  padding: 10px 20px !important;
+  border-radius: 6px !important;
+  font-size: 15px !important;
+}
+
+.button:hover {
+  background: #1e8449 !important;
+}
+
+/* override container - bigger max-width */
+.container {
+  max-width: 1400px; /* style.css had 1200px, that was too small */
+  padding: 0;
+}
+
+/* dashboard grid layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: calc(100vh - 52px);
+}
+
+/* sidebar */
+.sidebar {
+  background: #2c3e50;
+  padding: 20px;
+  color: white;
+}
+
+.sidebar-item {
+  padding: 12px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-item:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar-item.active {
+  background: #3498db;
+}
+
+/* main content area */
+.main-content {
+  padding: 25px;
+  overflow-y: auto;
+}
+
+/* h1 override from style.css */
+h1 {
+  color: #2c3e50; /* style.css said #333 */
+  font-size: 36px; /* style.css said 28px */
+}
+
+/* DASHBOARD HEADER - this is here instead of login_AND_register.css (oops) */
+.dashboard-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+}
+
+.dashboard-header h2 {
+  font-size: 28px;
+  margin-bottom: 5px;
+  color: white;
+}
+
+/* progress bar (not actually used anywhere but looks nice in CSS) */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #ecf0f1;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  transition: width 0.3s ease;
+}
+
+/* tag styles for notes */
+.tag {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-right: 4px;
+}
+
+.tag.tag-work { background: #2980b9; }
+.tag.tag-personal { background: #27ae60; }
+.tag.tag-ideas { background: #f39c12; }
+.tag.tag-general { background: #95a5a6; }
+
+/* override h3 */
+h3 {
+  color: #2c3e50; /* style.css said #555, this is slightly different */
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+/* tooltip (not implemented anywhere, was going to add this) */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltip-text {
+  visibility: hidden;
+  background: #333;
+  color: white;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+}
+
+/* animation for stat cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card {
+  animation: fadeInUp 0.3s ease; /* redefines stat-card from style.css */
+}
+
+/* login button animation (never actually triggered) */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+}
+
+/* table styles for budget (could have just used flexbox) */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  background: #2c3e50;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+table tr:hover {
+  background: #f8f9fa;
+}
+
+/* responsive - barely tested on mobile */
+@media (max-width: 768px) {
+  .stat-card { width: 140px; height: 100px; }
+  .stat-num { font-size: 24px; }
+}
